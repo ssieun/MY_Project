@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sieun.mapper.MemberMapper">
+
+	<insert id="signUp">
+		INSERT INTO MEMBER_MYTABLE (MEMBERNAME, MEMBERID, MEMBERPW, MEMBEREMAIL)
+		VALUES(#{memberName}, #{memberId}, #{memberPw}, #{memberEmail})
+	</insert>
+	
+	<select id="checkId" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER_MYTABLE WHERE MEMBERID = #{memberId}
+	</select>
+	
+	<select id="checkEmail" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER_MYTABLE WHERE MEMBEREMAIL = #{memberEmail}
+	</select>
+
+	<select id="login" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER_MYTABLE WHERE MEMBERID = #{memberId} AND MEMBERPW = #{memberPw}
+	</select>
+	
+	<select id="findId" resultType="string">
+		SELECT MEMBERID FROM MEMBER_MYTABLE WHERE MEMBEREMAIL = #{memberEmail} AND MEMBERNAME = #{memberName}
+	</select>
+
+	<select id="findPw" resultType="_int">
+		SELECT MEMEBERPW FROM MEMBER_MYTABLE WHERE MEMBEREMAIL = #{memberEmail} AND MEMBERID =#{memberId}
+	</select>
+
+	<update id="newPw">
+		UPDATE MEMBER_MYTABLE SET MEMBERPW = #{memberPw} WHERE MEMBERID = #{memberId}
+	</update>
+</mapper>
