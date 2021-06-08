@@ -48,7 +48,7 @@ public class MemberServiceImple implements MemberService {
 	public boolean login(String memberId, String memberPw) {
 		log.info("login...");
 		//1:로그인 가능     0: 로그인 불가능
-		//member.setMemberPw(encry(member.getMemberPw()));
+		encry(memberPw);
 		return mapper.login(memberId, memberPw)==1;
 	}
 
@@ -68,6 +68,19 @@ public class MemberServiceImple implements MemberService {
 	public void newPw(String memberId, String memberPw) {
 		log.info("new pw...");
 		mapper.newPw(memberId, memberPw);
+		
+	}
+
+	@Override
+	public boolean kakaoLogin(String kakaoId) {
+		log.info("kakaoCheck....");
+		return mapper.kakaoLogin(kakaoId)==1;
+		
+	}
+
+	@Override
+	public void kakao(MemberDTO member) {
+		mapper.kakao(member);
 		
 	}
 

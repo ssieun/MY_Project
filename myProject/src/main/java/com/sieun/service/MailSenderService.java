@@ -48,8 +48,8 @@ public class MailSenderService {
 			messageHelper.setFrom("we0014@naver.com"); // 보내는사람 생략하면 정상작동을 안함
 			messageHelper.setTo(memberEmail+".com"); // 받는사람 이메일
 			messageHelper.setSubject("[인증번호]sieun사이트 인증메일입니다."); // 메일제목은 생략이 가능하다
-			messageHelper.setText("인증번호는 [" +temp+ "] 입니다. 정확히 입력해주세요."); // 메일 내용
-
+			messageHelper.setText("인증번호는 ["   +temp+    "] 입니다. 정확히 입력해주세요."); // 메일 내용
+			System.out.println("인증코드: "+ temp);
 			mailSender.send(message);
 		} catch (Exception e) {
 			System.out.println(e);

@@ -1,19 +1,26 @@
 package com.sieun.controller;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.method.annotation.ModelAndViewMethodReturnValueHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sieun.domain.MemberDTO;
 import com.sieun.service.MailSenderService;
 import com.sieun.service.MemberService;
@@ -80,7 +87,7 @@ public class MemberController {
 	}
 	
 
-	@GetMapping("login") 
+	@GetMapping("/login") 
 	public void login() {}
 	
 	//로그인
@@ -89,18 +96,42 @@ public class MemberController {
 		log.info("login controller");
 		String result="";
 		
-		return "redirect:/member/login";
-				
+		return "redirect:/home";			
 	}
 	
 	
-	//카카오 로그인
-	@RequestMapping("/kakaologin")
-	public String kakao(@RequestParam(value="code", required=false) String code)throws Exception {
-		log.info("kakaoCode : " + code);
-		return "signup";
+	@ResponseBody
+	@GetMapping(value="/kakaoCheck/{kakaoId}",produces= {MediaType.TEXT_PLAIN_VALUE})
+	public String kakaoCheck(@PathVariable("kakaoId")String kakaoId) {
+		log.info("kakaoLogin ,,,,check");
+		
+		//카카오로그인으로 회원가입  한적있음
+		if(service.kakaoLogin(kakaoId)) {
+			log.info("가입한적 있음");
+			return "redirect:/index";
+		}else {
+			return "no";
+		}
+		
+	}	
+	
+	//카카오 회원가입
+	@GetMapping(value="/kakao/{kakaoId}/{kakaoName}")
+	public String kakao(@PathVariable("kakaoId")String kakaoId, @PathVariable("kakaoName")String kakaoName, @ModelAttribute("member")Model model) {
+		model.addAttribute("kakaoId",kakaoId);
+		model.addAttribute("kakaoName",kakaoName);
+	
+		return "redirect:/kakao";
 	}
 	
+	
+	@PostMapping("/kakaoSignup")
+	public void kakao(MemberDTO member) {
+		
+	}
+	
+	@GetMapping("/find")
+	public void find() {}
 	
 	
 	

@@ -10,11 +10,11 @@
 		var emailcode="";
 		
 		//아이디 중복 체크
-		$("input[name='id']").keyup(function(event){
+		$("input[name='memberId']").keyup(function(event){
 			var check= /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 			
 			console.log("아이디keyup");
-			var memberId=$("input[name='id']").val();
+			var memberId=$("input[name='memberId']").val();
 			
 			if(check.test(memberId)){
 				$("#checkId_text").text("아이디는 영문으로 입력해주세요.");
@@ -48,14 +48,15 @@
 			
 		});
 		
-		//인증번호 전송하면 이메일 input태그 readnly해주고 인증번호 전송 버튼을 이메일 다시 입력하기로 바꿔주기
 		
 		$("#email_button").click(function(){
-			var memberEmail=$("input[name='email']").val();
+			var memberEmail=$("input[name='memberEmail']").val();
 			var check = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 			
+			//인증번호 전송하면 이메일 input태그 readnly해주고 인증번호 전송 버튼을 이메일 다시 입력하기로 바꿔주기
 			$("#email_button").val('인증다시 하기').click(function(){
-				$("input[name='email']").attr('readonly', false);
+				$("input[name='memberEmail']").attr('readonly', false);
+				$("input[name='code']").attr('readonly', false);
 				//$("input[name='email']").val('');
 				$("#email_button").val('인증번호 발송');	
 
@@ -81,7 +82,7 @@
 							emailcode=result;
 							console.log(memberEmail);
 							alert("입력하신 이메일로 인증번호 전송 완료 되었습니다.");
-							$("input[name='email']").attr('readonly', true);
+							$("input[name='memberEmail']").attr('readonly', true);
 							$("#email_button").val('인증다시 하기');
 						}
 					},
@@ -99,11 +100,12 @@
 			
 			if(emailcode == resultCode){
 				alert("인증 완료되었습니다.");
-				resultCode.attr('readonly',true);
+				$("input[name='code']").attr('readonly', true);
 				checkEmail=true;
 			}else{
 				alert("인증번호가 맞지 않습니다.");
-				$("input[name='email']").attr('readonly', false);
+				$("input[name='memberEmail']").attr('readonly', false);
+				$("input[name='code']").attr('readonly', false);
 				checkEmail=false;
 			}
 		
@@ -112,10 +114,11 @@
 		
 		//회원가입 완료
 		$(".finish").click(function(){
-			var name=$("input[name='name']").val();
-			var pw=$("input[name='password']").val();
+			var name=$("input[name='memberName']").val();
+			var pw=$("input[name='memberPw']").val();
 			var reg = /^(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
 			var check=$("input[name='human]").prop("checked");
+			var form=document.signupForm;
 			
 			if(name==""){
 				alert("이름을 입력해주세요.");
@@ -132,9 +135,12 @@
 			}else if(checkEmail==false){
 				alert("이메일 인증을 확인해주세요.");
 				return false;
-			}else if(!check){
+			}else if(check==false){
 				alert("약관에 모두 동의해주세요.");
 				return false;
+			}else{
+				alert("회원가입이 완료되었습니다.");
+				form.submit();
 			}
 						
 			

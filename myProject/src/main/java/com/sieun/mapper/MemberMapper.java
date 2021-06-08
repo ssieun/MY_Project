@@ -27,4 +27,11 @@ public interface MemberMapper {
 	
 	//임시비밀번호 발급시 비밀번호 업데이트
 	public void newPw(@Param("memberId")String memberId,@Param("memberPw") String memberPw );
+	
+	//카카오최초 로그인인지 확인
+	public int kakaoLogin(String kakaoId);
+
+	//카카오 회원가입
+	public void kakao(MemberDTO member);
+
 }

@@ -30,4 +30,13 @@
 	<update id="newPw">
 		UPDATE MEMBER_MYTABLE SET MEMBERPW = #{memberPw} WHERE MEMBERID = #{memberId}
 	</update>
+	
+	<select id="kakaoLogin" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER_MYTABLE WHERE MEMBERID = #{kakaoId}
+	</select>
+	
+	<insert id="kakaoSignUp">
+		INSERT INTO MEMBER_MYTABLE (MEMBERNAME, MEMBERID, MEMBERPW, MEMBEREMAIL)
+		VALUES(#{kakaoName}, #{kakaoId}, #{memberPw}, #{memberEmail})
+	</insert>
 </mapper>

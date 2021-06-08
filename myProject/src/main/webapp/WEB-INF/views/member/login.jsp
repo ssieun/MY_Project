@@ -9,15 +9,17 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="/resources/assets/css/main.css" />
-	
+		<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<style>
 
 		.box{width:60%;}	
 		.find{font-size:0.7em; padding-left:400px;}
 		.signup{font-size:0.7em;}
+		.button primary login{width:220%; margin-left:-56%;}
+		
 		@media (max-width: 918px){
 			.box{width:100%;}
-			
+			.button primary login{width:60%;}
 		}
  
 	</style>
@@ -29,20 +31,21 @@
 		  <!-- Header -->
     		<header id="header">
 				<a href="#menu">Menu</a>
-				<a href="/member/login" class="button">Login</a>
+				<a href="/member/signup" class="button">Sign up</a>
 			</header>
 
       <!-- Nav -->
         <nav id="menu">
 				<ul class="links">
 					<li><a href="index.jsp">Home</a></li>
-					<li><a href="/member/Login" >Log in</a></li>
+					<li><a href="/member/login" >Log in</a></li>
 					<li><a href="/member/signup">Sign up</a></li>
+					<li><a href="/member/find">Find</a></li>
 					<li><a href="/board/list">Board</a></li>
 				</ul>
 			<ul class="actions stacked">
-					<li><a href="/member/Login"  class="button primary fit">LogIn</a></li>
-					<li><a href="/member/SignUp" class="button fit">Sign Up</a></li>
+					<li><a href="/member/login"  class="button primary fit">LogIn</a></li>
+					<li><a href="/member/signup" class="button fit">Sign Up</a></li>
 				</ul>
 			</nav>
 
@@ -69,18 +72,16 @@
 						<input type="text" name="password" style="width:60%; margin-bottom:10px;"/>
 					</div>
 						
-						<a href="/member/Find.me"  class="find" style="display:contents;">아이디 비밀번호 찾기</a>&nbsp;&nbsp;&nbsp;&nbsp; 
-						<a href="/member/SignUp.me" class="signup" >회원가입</a>
+						<a href="/member/find"  class="find" style="display:contents;">아이디 비밀번호 찾기</a>&nbsp;&nbsp;&nbsp;&nbsp; 
+						<a href="/member/signup" class="signup" >회원가입</a>
 					
 					
 						<ul class="actions">
 							<li style="margin:0 auto; margin-top:15px;">
-							<a type="submit" class="button primary login" style="width:220%; margin-left:-56%;">Login</a>
+							<a type="submit" class="button primary login">Login</a>
 							</li>
 						</ul>
-						<a href="/login">
-							<img src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg" width="300"/>
-						</a>
+						<a id="kakao-login-btn"></a>
 					</form>
 				</div>
 			</center>
@@ -90,6 +91,7 @@
 	
 
 		<!-- Scripts -->
+
 			<script>var contextPath = "${pageContext.request.contextPath}";</script>
 			<script src="//code.jquery.com/jquery-3.5.1.min.js"></script>
 			<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>

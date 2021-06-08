@@ -61,22 +61,8 @@
 			<div class="box" >
 				<form name="signupForm" action="/member/signup" method="post">
 					
-			<div class="col-6 col-12-xsmall">
-				<label for="id">NAME</label> 
-				<input type="text" id="name" name="memberName" style="width: 60%; margin-bottom: 20px;" />
-			</div>
-				
-			<div class="col-6 col-12-xsmall">
-				<label for="id">ID</label> 
-				<input type="text" name="memberId" style="width: 60%; margin-bottom: 20px;" />
-			</div>
-				<P id="checkId_text" style="font-size: 20%;"></P>
-
-			<div class="col-6 col-12-xsmall">
-				<label for="password" style="padding-top: 20px;">PW</label>
-				<input type="password" name="memberPw" style="width: 60%;" />
-			</div>
-
+			<h4>sieun 사이트를 이용하기 위해 인증을 진행해주세요.</h4>
+			<br>
 			<div class="col-6 col-12-xsmall">
 				<label for="name">EMAIL</label> 
 				<input type="text" name="memberEmail" class="code" style="width: 39%; margin-bottom: 10px; display: inline;" />
@@ -224,7 +210,7 @@
 			<script src="/resources/assets/js/breakpoints.min.js"></script>
 			<script src="/resources/assets/js/util.js"></script>
 			<script src="/resources/assets/js/main.js"></script>
-			<script src="/resources/assets/js/signup.js"></script>
+			<script src="/resources/assets/js/kakao.js"></script>
 		
 			
 	</body>

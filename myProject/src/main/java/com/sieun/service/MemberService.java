@@ -25,4 +25,11 @@ public interface MemberService {
 	//임시비밀번호 발급시 비밀번호 업데이트
 	public void newPw(String memberId, String memberPw);
 	
+	//카카오최초 로그인인지 확인
+	public boolean kakaoLogin(String kakaoId);
+
+	//카카오 회원가입
+	public void kakao(MemberDTO member);
+
+
 }

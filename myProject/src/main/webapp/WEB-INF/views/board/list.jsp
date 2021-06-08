@@ -71,15 +71,6 @@
 		<ul class="actions small"> 
 			<li><a href="#" class="button primary">게시글 작성</a></li>
 		</ul>
-		
-			<select name="category" id="category">
-				<option value="">선택하기</option>
-				<option value="java">JAVA</option>
-				<option value="javaScript">JAVASCRIPT</option>
-				<option value="jsp">JSP</option>
-				<option value="spring">SPRING</option>
-				<option value="memo">MEMO</option>
-			</select>
 	</div>	
 	
 
@@ -133,7 +124,57 @@
 			</c:if>
 		</div>
 		
-		
+		<!--모바일  -->
+		<div class="small-width" style="text-align:center;">
+			<c:if test="${pageMaker.cri.pageNum >1}"><!-- 이전버튼 -->
+				 <a class="changePage" href="${1}"><code>&lt;&lt;</code></a><!--제일 처음으로  -->
+                                 									<!-- 3페이지일떄 : 3-1=2임으로  이접버튼 누르면 2로 간다 -->
+                   <a class="changePage" href="${pageMaker.cri.pageNum-1}"><code>&lt;</code></a>
+              </c:if>
+               <a><code>${pageMaker.cri.pageNum}</code></a>	
+                <c:if test="${pageMaker.cri.pageNum<pageMaker.realEnd}">
+                 <a class="changePage" href="${pageMaker.cri.pageNum +1}"><code>&gt;</code></a><!-- 다음버튼 -->
+                 <a class="changePage" href="${pageMaker.realEnd}"><code>&gt;&gt;</code></a><!-- 맨 마지막으로-->
+              </c:if>
+		</div>
+
+		<!-- 페이지 이동시 디비조회를 하기위한것  처음 로딩되는 페이지여도 type와 keyword도 받기 떄문에 일다 넘겨준다-->
+		<form id="actionForm" action="/board/list">
+			<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+			<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
+			<%-- <input type="hidden" name="type" value="${pageMaker.cri.type}">
+                                 	<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}"> --%>
+		</form>
+
+		<!-- 검색란-->
+		<form action="/board/list" id="searchForm">
+			<!-- 검색하기를 누르면 리스트를 뿌려줘야 함으로 리스트로 form을 보낸다 -->
+			<div class="fields">
+				<div class="field">
+					<div style="text-align: center">
+						<select name="type">
+							<!--페이징 처리를 하기 위한 것     null이 아니면 selecte값을 ''로 해준다  selected는 변수가 아니라 값이기 떄문에 ''를 붙여준다-->
+							<option value="" ${pageMaker.cri.type== null ? 'selected':''}>검색
+								기준</option>
+							<option value="T" ${pageMaker.cri.type== 'T' ? 'selected':''}>제목</option>
+							<option value="C" ${pageMaker.cri.type== 'C' ? 'selected':''}>내용</option>
+							<option value="W" ${pageMaker.cri.type== 'W' ? 'selected':''}>작성자</option>
+							<option value="TC" ${pageMaker.cri.type== 'TC' ? 'selected':''}>제목
+								또는 내용</option>
+							<option value="TW" ${pageMaker.cri.type== 'TW' ? 'selected':''}>제목
+								또는 작성자</option>
+							<option value="TCW" ${pageMaker.cri.type== 'TCW' ? 'selected':''}>전체</option>
+						</select>
+						<!-- 검색하는 키워드 -->
+						<input id="keyword" type="text" name="keyword"
+							value="${pageMaker.cri.keyword}"> <a
+							href="javascript:void(0)"
+							class="search button primary icon solid fa-search">검색</a>
+						<!--javascript:void(0)" : onclick 이벤트  -->
+					</div>
+				</div>
+			</div>
+		</form>
 
 
 		<!-- Content -->
@@ -150,6 +191,52 @@
 			<script src="/resources/assets/js/breakpoints.min.js"></script>
 			<script src="/resources/assets/js/util.js"></script>
 			<script src="/resources/assets/js/main.js"></script>
-
+ <script>
+  
+   $("a.search").on("click", function(e){
+	   e.preventDefault();
+	   var searchForm=$("#searchForm");
+	   
+	   	//searchform태그에 selecte라는 옵션이 있니->있으면 true 없으면 false
+	 	if(!searchForm.find("option:selected").val()){
+		   alert("검색 종류를 선택하세요.");
+	   		return false;
+	   }
+	   //검색란이 공백일 시
+		if(!searchForm.find("input[name='keyword']").val()){
+		   alert("키워드를 입력하세요");
+	   		return false;
+	   }
+	   
+	   searchForm.submit();
+   })
+   
+   
+   
+   
+   //changePage가 클릭 이벤트가 발생되었을 시 
+   $(".changePage").on("click", function(e){
+	   e.preventDefault(); //기본에 있는 이벤트는 막아준다 -->a태그 이동 막아줌
+	   var actionForm=$("#actionForm");
+	   var pageNum=$(this).attr("href");
+					//this :누른  a태그
+		actionForm.find("input[name='pageNum']").val(pageNum);
+		actionForm.submit();
+   })
+   
+   
+   	//alert("${result}");
+   	
+   	var result="${result}";
+   	
+   	//$(document).ready()는 문서가 준비되면 매개변수로 넣은 콜백 함수를 실행하라는 의미
+   	$(document).ready(function(){
+   					//isNaN=>숫자가 아닐떄
+   		if(result=='' || isNaN(result)){
+   			return;
+   		}
+   		alert("게시글"+result+"번에 등록되었습니다.");
+   	})
+   </script>
    </body>
 </html>
