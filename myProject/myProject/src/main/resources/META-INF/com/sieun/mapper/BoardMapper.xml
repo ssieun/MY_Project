@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sieun.mapper.BoardMapper">
+
+	<sql id="criteria">
+		<if test="type != null and keyword != null">
+			<trim prefix ="(" suffix=") AND" prefixOverrides="OR">
+				<foreach item="type" collection="typeArr">
+					<trim  prefix="OR">
+					 	<choose>
+					 		<when test="type=='T'.toString()">
+					 			(BOARDTITLE LIKE '%'||#{keyword}||'%')
+					 		</when>
+					 		<when test="type=='C'.toString()">
+					 			(BOARDCONTETN LIKE '%'||#{keyword}||'%')
+					 		</when>
+					 		<when test="type=='O'.toString()">
+					 			(CATEGORY LIKE '%'||#{keyword}||'%')
+					 		</when>
+					 	</choose>
+					</trim>
+				</foreach>
+			</trim>
+		</if>
+	</sql>
+
+	<!-- 게시물 총 갯수 -->
+	<select id="getList" resultType="com.sieun.domain.BoardDTO">
+		<![CDATA[
+			SELECT * FROM BOARD_MYTABLE WHERE BOARDNUM > 0
+		]]>
+	</select>
+	
+	<select id="boardList" resultType="com.sieun.domain.BoardDTO">
+		SELECT BOARDNUM, MEMBERID, BOARDTITLE, BOARDCONTENT, BOARDDATE, UPDATEDATE, CATEGORY 
+		FROM
+			(SELECT /*+ INDEX_DESC(BOARD_MYTABLE PK_MYBOARD) */ ROWNUM RN, BOARDNUM, MEMBERID, BOARDTITLE, BOARDCONTENT, BOARDDATE, UPDATEDATE, CATEGORY 
+			FROM BOARD_MYTABLE
+			WHERE 
+		<include refid="criteria"/>
+	<![CDATA[
+			ROWNUM <= #{pageNum} * #{amount})
+		WHERE RN > ( #{pageNum} -1 ) * #{amount}
+	]]>
+	</select>
+	
+		
+	<!-- 검색된 게시물의 전체 개수-->
+	<select id="getTotal" resultType="_int">
+		SELECT COUNT(BOARDNUM) FROM BOARD_MYTABLE
+		<where>
+			<trim suffixOverrides="AND">
+				<include refid="criteria"/>
+			</trim>
+		</where> 
+	</select>
+	
+
+	<insert id="insert">
+		INSERT INTO BOARD_MYTABLE (BOARDNUM, MEMBERID, BOARDTITLE, BOARDCONTENT, CATEGORY)
+		VALUES(MYBOARD_SEQ.NEXTVAL, #{memberId}, #{boardTitle}, #{boardContent}, #{category})
+	</insert>
+	
+	<insert id="insertSeleteKey">
+		<selectKey keyProperty="boardNum" order="BEFORE" resultType="Long">
+			SELECT MYBOARD_SEQ.NEXTVAL FROM DUAL  
+		</selectKey>
+			INSERT INTO BOARD_MYTABLE (BOARDNUM, MEMBERID, BOARDTITLE, BOARDCONTENT, CATEGORY)
+			VALUES(#{boardNum}, #{memberId}, #{boardTitle}, #{boardContent}, #{category})		
+	</insert>
+	
+	<select id="get" resultType="com.sieun.domain.BoardDTO" >
+		SELECT * FROM BOARD_MYTABLE WHERE BOARDNUM = #{boardNum}
+	</select>
+	
+	<delete id="delete">
+		DELETE FROM BOARD_MYTABLE WHERE BOARDNUM = #{boardNum}
+	</delete>
+	
+	<update id="update">
+		UPDATE BOARD_MYTABLE
+		SET BOARDTITLE = #{boardTitle}, BOARDCONTENT = #{boardContent}, CATEGORY = #{category}, UPDATEDATE = SYSDATE
+		WHERE BOARDNUM = #{boardNum}
+	</update>
+	
+	
+
+</mapper>
