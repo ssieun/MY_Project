@@ -17,7 +17,7 @@ public interface MemberMapper {
 	public int checkEmail(String memberEmail);
 	
 	//로그인
-	public int login(String memberId, String memberPw);
+	public int login(MemberDTO member);
 	
 	//아이디 찾기
 	public String findId(MemberDTO member);

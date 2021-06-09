@@ -14,7 +14,7 @@ public interface MemberService {
 	public boolean checkEmail(String memberEmail);
 	
 	//로그인
-	public boolean login(String memberId, String memberPw);
+	public boolean login(MemberDTO member);
 	
 	//아이디 찾기
 	public String findId(MemberDTO member);

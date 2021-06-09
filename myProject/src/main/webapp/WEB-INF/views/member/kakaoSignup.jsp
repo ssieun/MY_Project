@@ -63,6 +63,8 @@
 					
 			<h4>sieun 사이트를 이용하기 위해 인증을 진행해주세요.</h4>
 			<br>
+			<input type="hidden" name="kakaoName" value="${kakaoName}">
+			<input type="hidden" name="kakaoId" value="${kakaoId}">
 			<div class="col-6 col-12-xsmall">
 				<label for="name">EMAIL</label> 
 				<input type="text" name="memberEmail" class="code" style="width: 39%; margin-bottom: 10px; display: inline;" />

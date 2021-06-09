@@ -45,11 +45,11 @@ public class MemberServiceImple implements MemberService {
 	}
 
 	@Override
-	public boolean login(String memberId, String memberPw) {
+	public boolean login(MemberDTO member) {
 		log.info("login...");
 		//1:로그인 가능     0: 로그인 불가능
-		encry(memberPw);
-		return mapper.login(memberId, memberPw)==1;
+		encry(member.getMemberPw());
+		return mapper.login(member)==1;
 	}
 
 	@Override
