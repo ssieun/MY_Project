@@ -91,12 +91,16 @@ public class MemberController {
 	public void login() {}
 	
 	//·Î±×ÀÎ
-	@PostMapping("/login")
+	@PostMapping("/loginCheck/{memberId}/{memberpw}")
 	public String login(String memberId, String memberPw) {
 		log.info("login controller");
 		String result="";
+		if(service.login(memberId, memberPw)) {
+			return "redirect:/index";
+		}else {
+			return "no";
+		}
 		
-		return "redirect:/home";			
 	}
 	
 	
@@ -126,9 +130,12 @@ public class MemberController {
 	
 	
 	@PostMapping("/kakaoSignup")
-	public void kakao(MemberDTO member) {
+	public String kakao(MemberDTO member) {
+		service.kakao(member);
 		
+		return "redirect:/member/login";
 	}
+	
 	
 	@GetMapping("/find")
 	public void find() {}

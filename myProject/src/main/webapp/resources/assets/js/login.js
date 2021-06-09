@@ -1,11 +1,9 @@
-/**
- * 로그인
- */
-
+//로그인
+	
 		$(".login").click(function(){
 			
-		var id=$("input[name='id']").val();
-		var pw=$("input[name='password']").val();
+		var id=$("input[name='memberId']").val();
+		var pw=$("input[name='memberPw']").val();
 		
 		if(id==""){
 			alert("아이디를 입력해주세요.");
@@ -21,9 +19,11 @@
 				success:function(result){
 					if(result.trim()=="no"){
 						alert("아이디 또는 비밀번호가 맞지 않숩니다.");
+						$("input[name='memberId']").val("");
+						$("input[name='memberPw']").val("");
 						return false;
 					}else{
-						loginForm.submit();
+						location.replace
 						
 					}
 				}
