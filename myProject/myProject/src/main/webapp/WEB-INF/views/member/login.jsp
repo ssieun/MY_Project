@@ -60,16 +60,16 @@
 
 			<center>
 			<div class="box" >
-				<form name="loginForm" name="loginForm" method="post" action="index.jsp">
+				<form name="loginForm" id="loginForm" method="post" action="index.jsp">
 						
 					<div class="col-6 col-12-xsmall">
 						<label for="id">ID</label>
-						<input type="text"  name="id" style="width:60%;" />
+						<input type="text"  name="memberId" style="width:60%;" />
 					</div>
 						
 					<div class="col-6 col-12-xsmall">
 						<label for="password">Pw</label>
-						<input type="text" name="password" style="width:60%; margin-bottom:10px;"/>
+						<input type="password" name="memberPw" style="width:60%; margin-bottom:10px;"/>
 					</div>
 						
 						<a href="/member/find"  class="find" style="display:contents;">아이디 비밀번호 찾기</a>&nbsp;&nbsp;&nbsp;&nbsp; 

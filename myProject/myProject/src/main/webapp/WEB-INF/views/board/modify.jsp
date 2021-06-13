@@ -53,6 +53,18 @@
                            <input type="hidden" name="type" value="${cri.type}">
                            
               				<div class="col-6 col-12-xsmall">
+              				
+						<div class="col-12">
+                                 <h4>카테고리</h4>
+							<select name="category" id="category">
+								<option value="">선택하기</option>
+								<option value="java">JAVA</option>
+								<option value="javaScript">JAVASCRIPT</option>
+								<option value="jsp">JSP</option>
+								<option value="spring">SPRING</option>
+							</select>
+						</div>
+						
                               <div class="field">
                                  <h4>제목</h4>
                                  <input name="boardTitle" placeholder="Title" type="text" value="${board.boardTitle}"/>
@@ -61,10 +73,7 @@
                                  <h4>내용</h4>
                                  <textarea name="content" rows="6" placeholder="Content" style="resize:none">${board.boardContent}</textarea>
                               </div>
-                              <div class="field">
-                                 <h4>작성자</h4>
-                                 <input name="writer" placeholder="Writer" type="text" value="${board.memberId}"/>
-                              </div>
+                            
                       	</div>
                            <ul class="actions">
                               <li><input type="submit" class="button" value="등록" /></li>

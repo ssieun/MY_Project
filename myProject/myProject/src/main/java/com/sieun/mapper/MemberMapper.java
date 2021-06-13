@@ -2,13 +2,13 @@ package com.sieun.mapper;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.sieun.domain.MemberDTO;
+import com.sieun.domain.MemberVO;
 
 public interface MemberMapper {
 	
 	
 	//회원가입
-	public void signUp(MemberDTO member);
+	public void signUp(MemberVO member);
 	
 	//아이디 중복체크 
 	public int checkId(String memberId);
@@ -17,13 +17,13 @@ public interface MemberMapper {
 	public int checkEmail(String memberEmail);
 	
 	//로그인
-	public int login(String memberId, String memberPw);
+	public int login(MemberVO member);
 	
 	//아이디 찾기
-	public String findId(MemberDTO member);
+	public String findId(MemberVO member);
 	
 	//비밀번호 찾기-임시비밀번호로 수정까지
-	public int findPw(MemberDTO member);
+	public int findPw(MemberVO member);
 	
 	//임시비밀번호 발급시 비밀번호 업데이트
 	public void newPw(@Param("memberId")String memberId,@Param("memberPw") String memberPw );
@@ -32,6 +32,6 @@ public interface MemberMapper {
 	public int kakaoLogin(String kakaoId);
 
 	//카카오 회원가입
-	public void kakao(MemberDTO member);
+	public void kakao(MemberVO member);
 
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.sieun.domain.BoardDTO;
+import com.sieun.domain.BoardVO;
 import com.sieun.domain.Criteria;
 import com.sieun.domain.PageDTO;
 import com.sieun.mapper.BoardMapper;
@@ -38,7 +38,7 @@ public class BoardController {
 		
 		//특장 게시물 가져오기 
 		@GetMapping({"/get","/modify"})
-		public void get(@RequestParam("boardNum") Long boardNum,Criteria cri,Model model) {
+		public void get(@RequestParam("boardNum") Long boardNum,@ModelAttribute("cri")Criteria cri,Model model) {
 			log.info("get...."+boardNum);
 			model.addAttribute("board", service.get(boardNum));
 			model.addAttribute("cri",cri);
@@ -50,7 +50,7 @@ public class BoardController {
 		
 		//게시글 작성
 		@PostMapping("/insert")
-		public String insert(BoardDTO board, RedirectAttributes rttr) {
+		public String insert(BoardVO board, RedirectAttributes rttr) {
 			log.info("insert.....");
 			service.register(board);
 			
@@ -76,7 +76,7 @@ public class BoardController {
 		
 		//게시글 수정 ->수정이 완료되면 리스트로 가는 것이 아니라 get으로 가도록...
 		@PostMapping("/modify")
-		public String modify(BoardDTO board,Criteria cri,RedirectAttributes rttr) {
+		public String modify(BoardVO board,Criteria cri,RedirectAttributes rttr) {
 			
 			if(service.modify(board)) {
 				rttr.addAttribute("result","success");
@@ -88,7 +88,7 @@ public class BoardController {
 			rttr.addAttribute("keyword", cri.getKeyword());
 			rttr.addAttribute("type", cri.getType());
 			
-			return "redirect:/board/get";
+			return "redirect:/board/list";
 		}
 		
 }

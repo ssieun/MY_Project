@@ -12,7 +12,7 @@
         .big-width{display:block;}
         .small-width{display:none;}
        	.table-wrapper {overflow-x:hidden !important;}
-         .category{width:23%; display:inline-block;margin-left:10%}
+    	 select{width: 25%;display: inline;}
        	 input[name='keyword']{width: 41%; display: inline;}
        	  .table-wrapper {overflow-x:hidden !important;}
        	 
@@ -22,7 +22,7 @@
             .updateDate {display:none;}
             .big-width{display:none;}
             .small-width{display:block;}
-       		.category{width: 100%;display: inline; margin-left:0%;}
+  			 select{width: 25%;display: inline;}
          	input[name='keyword']{width: 100%; display: inline;}
          	.search{width: 100%;}
          
@@ -69,7 +69,7 @@
 		<!-- 내 아이디만 보이도록 유지보수 하기 -->	
 	<div class="col-6 col-12-small">
 		<ul class="actions small"> 
-			<li><a href="#" class="button primary">게시글 작성</a></li>
+			<li><a href="/board/insert${cri.getList()}" class="button primary">게시글 작성</a></li>
 		</ul>
 	</div>	
 	
@@ -91,7 +91,7 @@
 						<tr class="tHead">
 							<td class="boardNum">${board.boardNum}</td>
 							<td class="category">${board.category}</td>
-							<td class="boardTitle">${board.boardTitle}</td>
+							<td class="boardTitle"><a href="/board/get${pageMaker.cri.getList()}&boardNum=${board.boardNum}">${board.boardTitle}</a></td>
 							<td class="boardDate">${board.boardDate}</td>
 							<td class="updateDate">${board.updateDate}</td>
 						</tr>
@@ -145,8 +145,7 @@
 			<%-- <input type="hidden" name="type" value="${pageMaker.cri.type}">
                                  	<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}"> --%>
 		</form>
-
-		<!-- 검색란-->
+<!-- 검색란-->
 		<form action="/board/list" id="searchForm">
 			<!-- 검색하기를 누르면 리스트를 뿌려줘야 함으로 리스트로 form을 보낸다 -->
 			<div class="fields">
@@ -154,15 +153,10 @@
 					<div style="text-align: center">
 						<select name="type">
 							<!--페이징 처리를 하기 위한 것     null이 아니면 selecte값을 ''로 해준다  selected는 변수가 아니라 값이기 떄문에 ''를 붙여준다-->
-							<option value="" ${pageMaker.cri.type== null ? 'selected':''}>검색
-								기준</option>
+							<option value="" ${pageMaker.cri.type== null ? 'selected':''}>검색기준</option>
 							<option value="T" ${pageMaker.cri.type== 'T' ? 'selected':''}>제목</option>
 							<option value="C" ${pageMaker.cri.type== 'C' ? 'selected':''}>내용</option>
-							<option value="W" ${pageMaker.cri.type== 'W' ? 'selected':''}>작성자</option>
-							<option value="TC" ${pageMaker.cri.type== 'TC' ? 'selected':''}>제목
-								또는 내용</option>
-							<option value="TW" ${pageMaker.cri.type== 'TW' ? 'selected':''}>제목
-								또는 작성자</option>
+							<option value="W" ${pageMaker.cri.type== 'O' ? 'selected':''}>카테고리</option>
 							<option value="TCW" ${pageMaker.cri.type== 'TCW' ? 'selected':''}>전체</option>
 						</select>
 						<!-- 검색하는 키워드 -->
@@ -192,51 +186,46 @@
 			<script src="/resources/assets/js/util.js"></script>
 			<script src="/resources/assets/js/main.js"></script>
  <script>
-  
-   $("a.search").on("click", function(e){
-	   e.preventDefault();
-	   var searchForm=$("#searchForm");
-	   
-	   	//searchform태그에 selecte라는 옵션이 있니->있으면 true 없으면 false
-	 	if(!searchForm.find("option:selected").val()){
-		   alert("검색 종류를 선택하세요.");
-	   		return false;
-	   }
-	   //검색란이 공백일 시
-		if(!searchForm.find("input[name='keyword']").val()){
-		   alert("키워드를 입력하세요");
-	   		return false;
-	   }
-	   
-	   searchForm.submit();
-   })
-   
-   
-   
-   
-   //changePage가 클릭 이벤트가 발생되었을 시 
-   $(".changePage").on("click", function(e){
-	   e.preventDefault(); //기본에 있는 이벤트는 막아준다 -->a태그 이동 막아줌
-	   var actionForm=$("#actionForm");
-	   var pageNum=$(this).attr("href");
-					//this :누른  a태그
-		actionForm.find("input[name='pageNum']").val(pageNum);
-		actionForm.submit();
-   })
-   
-   
-   	//alert("${result}");
-   	
-   	var result="${result}";
-   	
-   	//$(document).ready()는 문서가 준비되면 매개변수로 넣은 콜백 함수를 실행하라는 의미
-   	$(document).ready(function(){
-   					//isNaN=>숫자가 아닐떄
-   		if(result=='' || isNaN(result)){
-   			return;
-   		}
-   		alert("게시글"+result+"번에 등록되었습니다.");
-   	})
-   </script>
+		$("a.search").on("click", function(e) {
+			e.preventDefault();
+			var searchForm = $("#searchForm");
+
+			//searchform태그에 selecte라는 옵션이 있니->있으면 true 없으면 false
+			if (!searchForm.find("option:selected").val()) {
+				alert("검색 종류를 선택하세요.");
+				return false;
+			}
+			//검색란이 공백일 시
+			if (!searchForm.find("input[name='keyword']").val()) {
+				alert("키워드를 입력하세요");
+				return false;
+			}
+
+			searchForm.submit();
+		})
+
+		//changePage가 클릭 이벤트가 발생되었을 시 
+		$(".changePage").on("click", function(e) {
+			e.preventDefault(); //기본에 있는 이벤트는 막아준다 -->a태그 이동 막아줌
+			var actionForm = $("#actionForm");
+			var pageNum = $(this).attr("href");
+			//this :누른  a태그
+			actionForm.find("input[name='pageNum']").val(pageNum);
+			actionForm.submit();
+		})
+
+		//alert("${result}");
+
+		var result = "${result}";
+
+		//$(document).ready()는 문서가 준비되면 매개변수로 넣은 콜백 함수를 실행하라는 의미
+		$(document).ready(function() {
+			//isNaN=>숫자가 아닐떄
+			if (result == '' || isNaN(result)) {
+				return;
+			}
+			alert("게시글" + result + "번에 등록되었습니다.");
+		})
+	</script>
    </body>
 </html>

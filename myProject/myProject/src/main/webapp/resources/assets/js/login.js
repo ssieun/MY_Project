@@ -1,37 +1,40 @@
-/**
- * 로그인
- */
-			//수정중...
-		/*$(".login").click(function(){
+//로그인
+	
+		$(".login").click(function(){
 			
-		var id=$("input[name='id']").val();
-		var pw=$("input[name='password']").val();
+		var memberId=$("input[name='memberId']").val();
+		var memberPw=$("input[name='memberPw']").val();
+		var form ={
+				memberId:memberId,
+				memberPw:memberPw
+		}
 		
-		if(id==""){
+		
+		if(memberId==""){
 			alert("아이디를 입력해주세요.");
 			return false;
-		}else if(pw==""){
+		}else if(memberPw==""){
 			alert("비밀번호를 입력해주세요.");
 			return false;
 		}else{
-			
 			$.ajax({
 				type:"post",
-				url:"/login/"+id+"/"+pw,
+				url:"/member/login",
+				data:JSON.stringify(form),
+				contentType: "application/json; charset=utf-8",
 				success:function(result){
 					if(result.trim()=="no"){
 						alert("아이디 또는 비밀번호가 맞지 않숩니다.");
+						$("input[name='memberId']").val("");
+						$("input[name='memberPw']").val("");
 						return false;
-					}else{
-						loginForm.submit();
-						
 					}
 				}
 				
 			})
 			
 		}
-	});*/
+	});
 		
 		//카카오 로그인
 		Kakao.init('77b7f648392a777f72608935c3e3e8ed'); //발급받은 키 중 javascript키를 사용해준다.
@@ -47,7 +50,7 @@
 		    				    				
 		    			var kakaoId=response.id;
 		    			var kakaoEmail=response.email;//이메일은 받아오지 못함
-		    			var kakaoName=response.nickname;
+		    			var kakaoName=response.nickname;//왜 못받아오지??????
 		    			
 		    			console.log("userId : "+kakaoId);
 		    			console.log("userEmail : "+kakaoEmail);
@@ -59,6 +62,7 @@
 		    				success:function(result){
 		    					if(result.trim()=="no"){
 		    						console.log("카카오 회원가입");
+		    						alert("본인 인증을 진행해주세요.");
 		    						window.location.href= contextPath+"/member/kakao?kakaoId="+kakaoId+"&kakaoName="+kakaoName;
 		 
 		    					} 					

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:context="http://www.springframework.org/schema/context"
+   xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+   xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+      http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+   
+   <!-- Root Context: defines shared resources visible to all other web components -->
+   <!-- HikariConfig hikariConfig = new HikariConfig() -->
+   <!-- hikariConfig.setDriverClassName("") -->
+   <!-- hikariConfig.jdbcUrl("") -->
+   <!-- hikariConfig.username("") -->
+   <!-- hikariConfig.password("") -->
+   
+   <!-- bean: 객체등록 // class는 객체 타입 -->
+   <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+      <!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+      <property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:XE"/> -->
+      <!--  oracle에서 실행을 주도하면 결과값이 ?로 나오기 때문에 다운받은 라이브러리를 오라클 실행 중에 난입하도록 한다.-->
+      <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+      <property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"/>
+      <property name="username" value="hr"/>
+      <property name="password" value="hr"/>
+   </bean>
+   
+   <!-- DataSource dataSource = new DataSource(hikariConfig) -->
+   <!-- destroy-method :연결객체를 파괴하려고 할떄 무슨 메소드를 쓸지 지정해주는 것 =-->
+   <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+    	<!-- constructor-arg: 생성자를 만들떄 전달해줄 것 -->
+      <constructor-arg ref="hikariConfig"/>
+   </bean>
+   <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+       	<!--value= 직접 값을 넣어주기 ref=객체(값)을 가져온다  -->
+        <!-- dataSource안에 Config가 있기 때문에 dataSource를 가져오면 편하다  -->
+         <property name="dataSource" ref="dataSource"/>
+         										<!--ㅡmapper안에 모든 경로에서/**/.xml로 끝나는 파일을 인식한다  -->
+        <property name="mapperLocations" value="classpath:/META-INF/com/sieun/mapper/**/*.xml"/> 
+		<!-- _ 를 카멜표기법으로 바꿔주는 라이브러리 -->
+		<property name="configuration">
+         <bean class="org.apache.ibatis.session.Configuration">
+            <property name="mapUnderscoreToCamelCase" value="true"/>
+         </bean>
+      </property>  
+</bean>
+	<!-- navermail설정 -->
+	<bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.naver.com" /> <!-- 메이서버 호스트 -->
+		<property name="port" value="465" /> <!-- 메이서버 포트번호 -->
+		<property name="username" value="we0014" /> <!-- 자신의 이메일 아이디 -->
+		<property name="password" value="Tldmsdl33!" /> <!-- 자신의 비밀번호 -->
+		<!-- 보안연결 SSL과 관련된 설정 -->
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtps.checkserveridentity">true</prop>
+				<prop key="mail.smtps.ssl.trust">*</prop>
+				<prop key="mail.debug">true</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+			</props>
+		</property>
+	</bean>
+	
+	
+     
+       
+  <!-- 어노테이션으로 쓴 쿼리문과 MyBatis를 연결해주기 위해 -->
+   <mybatis-spring:scan base-package="com.sieun.mapper"/>
+	<context:component-scan base-package="com.sieun.exception"/>
+   <context:component-scan base-package="com.sieun.service"/>
+
+</beans>

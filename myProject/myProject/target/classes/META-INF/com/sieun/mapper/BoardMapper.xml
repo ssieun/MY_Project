@@ -25,13 +25,13 @@
 	</sql>
 
 	<!-- 게시물 총 갯수 -->
-	<select id="getList" resultType="com.sieun.domain.BoardDTO">
+	<select id="getList" resultType="com.sieun.domain.BoardVO">
 		<![CDATA[
 			SELECT * FROM BOARD_MYTABLE WHERE BOARDNUM > 0
 		]]>
 	</select>
 	
-	<select id="boardList" resultType="com.sieun.domain.BoardDTO">
+	<select id="boardList" resultType="com.sieun.domain.BoardVO">
 		SELECT BOARDNUM, MEMBERID, BOARDTITLE, BOARDCONTENT, BOARDDATE, UPDATEDATE, CATEGORY 
 		FROM
 			(SELECT /*+ INDEX_DESC(BOARD_MYTABLE PK_MYBOARD) */ ROWNUM RN, BOARDNUM, MEMBERID, BOARDTITLE, BOARDCONTENT, BOARDDATE, UPDATEDATE, CATEGORY 
@@ -69,7 +69,7 @@
 			VALUES(#{boardNum}, #{memberId}, #{boardTitle}, #{boardContent}, #{category})		
 	</insert>
 	
-	<select id="get" resultType="com.sieun.domain.BoardDTO" >
+	<select id="get" resultType="com.sieun.domain.BoardVO" >
 		SELECT * FROM BOARD_MYTABLE WHERE BOARDNUM = #{boardNum}
 	</select>
 	

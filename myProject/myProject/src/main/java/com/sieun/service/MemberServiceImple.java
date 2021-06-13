@@ -2,7 +2,7 @@ package com.sieun.service;
 
 import org.springframework.stereotype.Service;
 
-import com.sieun.domain.MemberDTO;
+import com.sieun.domain.MemberVO;
 import com.sieun.mapper.MemberMapper;
 
 import lombok.AllArgsConstructor;
@@ -24,7 +24,7 @@ public class MemberServiceImple implements MemberService {
 	}
 
 	@Override
-	public void sieunUp(MemberDTO member) {
+	public void sieunUp(MemberVO member) {
 		log.info("sign up...");
 		member.setMemberPw(encry(member.getMemberPw()));
 		 mapper.signUp(member);
@@ -45,21 +45,21 @@ public class MemberServiceImple implements MemberService {
 	}
 
 	@Override
-	public boolean login(String memberId, String memberPw) {
+	public boolean login(MemberVO member) {
 		log.info("login...");
 		//1:로그인 가능     0: 로그인 불가능
-		encry(memberPw);
-		return mapper.login(memberId, memberPw)==1;
+		encry(member.getMemberPw());
+		return mapper.login(member)==1;
 	}
 
 	@Override
-	public String findId(MemberDTO member) {
+	public String findId(MemberVO member) {
 		log.info("find Id...");
 		return mapper.findId(member);
 	}
 
 	@Override
-	public boolean findPw(MemberDTO member) {
+	public boolean findPw(MemberVO member) {
 		log.info("find pw.....");
 		return mapper.findPw(member)==1;
 	}
@@ -79,7 +79,7 @@ public class MemberServiceImple implements MemberService {
 	}
 
 	@Override
-	public void kakao(MemberDTO member) {
+	public void kakao(MemberVO member) {
 		mapper.kakao(member);
 		
 	}
